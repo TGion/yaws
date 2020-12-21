@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.Locale;
 
 import static de.karrieretutor.springboot.Const.*;
+import org.thymeleaf.util.StringUtils;
 
 @Controller
 @RequestMapping(value = "/kunde/")
@@ -119,9 +120,50 @@ public class KundenController {
                             RedirectAttributes redirect,
                             HttpSession session,
                             Locale locale) {
+        
+
         if (result.hasErrors()) {
+            // TODO Fehler prüfen und ausgeben
+            // FINALE VERSION
+            
+
+
+
             return "customer";
         }
+        
+        
+        System.out.println("Speichern" + kunde.getZahlungsart().toString() + " " + kunde.getIban());
+
+        if (!kunde.validiereZahlungsart(result)) {
+            //result.rejectValue(kunde.getZahlungsart(), ;
+        };
+        
+        switch (kunde.getZahlungsart()) {
+            case EINZUG:
+                if (kunde.validiereIBAN(kunde.getIban())) {
+                    // result.rejectValue("kunde.iban", "validation.zahlungsart.iban");
+                    // return "customer";
+                }
+                break;
+
+            case KREDITKARTE:
+                if (StringUtils.isEmptyOrWhitespace(kunde.getKreditkartenNr())) {
+                    // result.rejectValue("kunde.kreditkartenNr", "validation.zahlungsart.karte");
+                    // return "customer";
+                }
+                break;
+
+            case PAYPAL:
+                break;
+        }
+
+        // Switch Zahlungsart
+
+        // Ü berprüfe Zahlungsart (validate)
+
+        // FALSE: Reject Value, return customer
+
         Kunde vorhandenerKunde = kundenService.findByEmail(kunde.getEmail());
         if (vorhandenerKunde != null && vorhandenerKunde.getId() != kunde.getId()) {
             result.rejectValue("email", "validation.register.email.reserved");

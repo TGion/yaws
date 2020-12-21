@@ -62,8 +62,12 @@ public class BestellController {
         if (result.hasErrors()) {
             return "checkout";
         }
-        // TODO: kunde.validiereZahlungsart(result) implementieren
+
         Kunde kunde = bestellung.getKunde();
+        if (!kunde.validiereZahlungsart(result)) {
+            //result.rejectValue(kunde.getZahlungsart(), ;
+        };
+        
         switch (kunde.getZahlungsart()) {
             case EINZUG:
                 if (StringUtils.isEmptyOrWhitespace(kunde.getIban())) {

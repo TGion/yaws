@@ -15,6 +15,8 @@ import java.util.Locale;
 import static de.karrieretutor.springboot.Const.CUSTOMER;
 import static javax.persistence.CascadeType.ALL;
 
+import java.math.BigInteger;
+
 
 @Entity
 public class Kunde {
@@ -155,15 +157,38 @@ public class Kunde {
     }
 
 
-    // TODO: implementieren
     @Transient
     public boolean validiereZahlungsart(BindingResult result) {
+        
+
         return false;
     }
 
     // TODO: implementieren
-    private boolean validiereIBAN() {
-        return false;
+    public boolean validiereIBAN(String accountNumber) {
+        final int IBANNUMBER_MIN_SIZE = 15;
+        final int IBANNUMBER_MAX_SIZE = 34;
+        final BigInteger IBANNUMBER_MAGIC_NUMBER = new BigInteger("97");
+
+        String newAccountNumber = accountNumber.trim();
+
+        // Check that the total IBAN length is correct as per the country. If not, the IBAN is invalid.
+        if (newAccountNumber.length() < IBANNUMBER_MIN_SIZE || newAccountNumber.length() > IBANNUMBER_MAX_SIZE) {
+            return false;
+        }
+
+        // Move the four initial characters to the end of the string.
+        newAccountNumber = newAccountNumber.substring(4) + newAccountNumber.substring(0, 4);
+
+        // Replace each letter in the string with two digits, thereby expanding the string, where A = 10, B = 11, ..., Z = 35.
+        StringBuilder numericAccountNumber = new StringBuilder();
+        for (int i = 0;i < newAccountNumber.length();i++) {
+            numericAccountNumber.append(Character.getNumericValue(newAccountNumber.charAt(i)));
+        }
+
+        // Interpret the string as a decimal integer and compute the remainder of that number on division by 97.
+        BigInteger ibanNumber = new BigInteger(numericAccountNumber.toString());
+        return ibanNumber.mod(IBANNUMBER_MAGIC_NUMBER).intValue() == 1;
     }
 
     // TODO: implementieren
