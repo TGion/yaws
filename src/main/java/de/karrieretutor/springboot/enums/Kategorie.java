@@ -4,7 +4,9 @@ public enum Kategorie {
     KAT1("enum.category.1"),
     KAT2("enum.category.2"),
     KAT3("enum.category.3"),
-    KAT4("enum.category.4");
+    KAT4("enum.category.4"),
+    KAT5("enum.category.5"),
+    KAT6("enum.category.6");
 
     private final String messageKey;
 
