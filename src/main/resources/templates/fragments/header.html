@@ -2,43 +2,46 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   class="mdl-layout__header mdl-layout__header--waterfall portfolio-header">
-	<div class="mdl-layout__header-row portfolio-logo-row">
+	<div class="mdl-layout__header-row portfolio-logo-row portfolio-logo">
 		<h1 th:text="#{title.shop}"></h1>
 	</div>
 	<div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
 		<nav sec:authorize="!isAuthenticated()"
 			class="mdl-navigation mdl-typography--body-1-force-preferred-font">
 			<a href="/index.html" class="mdl-navigation__link"
-			   th:classappend="${titel=='Index'}?is-active" th:text="#{nav.portfolio}"></a>
+				th:classappend="${titel=='Index'}?is-active" th:text="#{nav.portfolio}">
+				</a>
 			<a href="/cart.html" class="mdl-navigation__link"
-			   th:classappend="${titel=='Warenkorb'}?is-active">
-          <span th:text="#{nav.cart}"/>
-			</a>
+			   	th:classappend="${titel=='Warenkorb'}?is-active">
+          			<span th:text="#{nav.cart}"/>
+				</a>
 			<a href="/checkout" th:if="${!session.warenkorb.produkte.isEmpty()}" class="mdl-navigation__link"
-			   th:classappend="${titel=='Checkout'}?is-active">
+			   	th:classappend="${titel=='Checkout'}?is-active">
 				<span th:text="#{button.checkout}"></span>
 				<i class="material-icons">exit_to_app</i>
-			</a>
+				</a>
 			<a href="/bestellungen" th:if="${session.kunde}" class="mdl-navigation__link"
-			   th:classappend="${titel=='Orders'}?is-active" th:text="#{nav.orders}"></a>
+				th:classappend="${titel=='Orders'}?is-active" th:text="#{nav.orders}">
+				</a>
 			<a href="/kunde/" th:if="${session.kunde}" class="mdl-navigation__link"
-			   th:classappend="${titel=='Customer'}?is-active" th:text="#{nav.account}"></a>
-			<span>
-	        <span th:text="#{lang.change}"></span><br/>
-	        <select id="locales" onchange="location.search='?lang='+this.value">
-	            <option value="" th:text="#{lang.select}"></option>
-	            <option value="en" th:text="#{lang.en}"
-                th:selected="${#strings.equals(#locale, 'en')}"></option>
-	            <option value="de" th:text="#{lang.de}"
-                th:selected="${#strings.equals(#locale, 'de')}"></option>
-	        </select>
-	    </span>
+			   	th:classappend="${titel=='Customer'}?is-active" th:text="#{nav.account}">
+				</a>
+
 			<a href="/kunde/logout" th:if="${session.kunde}" class="mdl-navigation__link">
 				<span th:text="${session.kunde.vorname}"/>
 				<span th:text="#{nav.logout}"/>
-			</a>
+				</a>
 			<a href="/kunde/login" th:unless="${session.kunde}" class="mdl-navigation__link"
-			   th:classappend="${titel=='Login'}?is-active" th:text="#{nav.login}"></a>
+			   	th:classappend="${titel=='Login'}?is-active" th:text="#{nav.login}">
+				</a>
+
+			<span th:text="#{lang.change}"></span>
+			<select id="locales" onchange="location.search='?lang='+this.value">
+				<!-- <option value="" th:text="#{lang.select}"></option>  -->
+				<option value="en" th:text="#{lang.en}"	th:selected="${#strings.equals(#locale, 'en')}"></option>
+				<option value="de" th:text="#{lang.de}"	th:selected="${#strings.equals(#locale, 'de')}"></option>
+			</select>
+
 		</nav>
 
 		<nav sec:authorize="isAuthenticated()"
