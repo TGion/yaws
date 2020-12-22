@@ -60,18 +60,21 @@ public class BestellController {
                             Locale locale,
                             HttpSession session) {
         if (result.hasErrors()) {
+            // TODO Fehler prüfen und ausgeben
+            // FINALE VERSION
             return "checkout";
         }
 
         Kunde kunde = bestellung.getKunde();
         if (!kunde.validiereZahlungsart(result)) {
-            //result.rejectValue(kunde.getZahlungsart(), ;
+            result.rejectValue("zahlungsart", "validation.zahlungsart.zahlungsart");
+            return "checkout";
         };
-        
+         
         switch (kunde.getZahlungsart()) {
             case EINZUG:
-                if (StringUtils.isEmptyOrWhitespace(kunde.getIban())) {
-                    result.rejectValue("kunde.iban", "validation.zahlungsart.iban");
+            if (!kunde.validiereIBAN(kunde.getIban())) {
+                result.rejectValue("iban", "validation.zahlungsart.iban");
                     return "checkout";
                 }
                 break;
@@ -80,6 +83,8 @@ public class BestellController {
                     result.rejectValue("kunde.kreditkartenNr", "validation.zahlungsart.karte");
                     return "checkout";
                 }
+            case PAYPAL:
+                break;
         }
 
         String message = messageSource.getMessage("order.failure", null, locale);
