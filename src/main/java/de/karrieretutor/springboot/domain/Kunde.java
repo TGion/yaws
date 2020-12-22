@@ -16,6 +16,7 @@ import static de.karrieretutor.springboot.Const.CUSTOMER;
 import static javax.persistence.CascadeType.ALL;
 
 import java.math.BigInteger;
+import org.thymeleaf.util.StringUtils;
 
 
 @Entity
@@ -159,13 +160,35 @@ public class Kunde {
 
     @Transient
     public boolean validiereZahlungsart(BindingResult result) {
-        
+        if (this.getZahlungsart().toString().isEmpty()) {
+            result.rejectValue("zahlungsart", "validation.zahlungsart.zahlungsart");
+            return false;
+        }
 
-        return false;
+        switch (this.getZahlungsart()) {
+            case EINZUG:
+                if (!this.validiereIBAN(this.getIban())) {
+                    result.rejectValue("iban", "validation.zahlungsart.iban");
+                    return false;
+                }
+                break;
+
+            case KREDITKARTE:
+                if (StringUtils.isEmptyOrWhitespace(this.getKreditkartenNr())) {
+                    result.rejectValue("kunde.kreditkartenNr", "validation.zahlungsart.karte");
+                    return false;
+                }
+                break;
+
+            case PAYPAL:
+                break;
+        }
+        
+        return true;
     }
 
-    // TODO: implementieren
-    public boolean validiereIBAN(String accountNumber) {
+    private boolean validiereIBAN(String accountNumber) {
+
         final int IBANNUMBER_MIN_SIZE = 15;
         final int IBANNUMBER_MAX_SIZE = 34;
         final BigInteger IBANNUMBER_MAGIC_NUMBER = new BigInteger("97");

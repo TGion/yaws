@@ -123,36 +123,13 @@ public class KundenController {
         
 
         if (result.hasErrors()) {
-            // TODO Fehler prüfen und ausgeben
-            // FINALE VERSION
+            // When is it called ?
             return "customer";
         }
 
-        // TODO
-        // zahlungsart here
         if (!kunde.validiereZahlungsart(result)) {
-            result.rejectValue("zahlungsart", "validation.zahlungsart.zahlungsart");
             return "customer";
         };
-        
-        switch (kunde.getZahlungsart()) {
-            case EINZUG:
-                if (!kunde.validiereIBAN(kunde.getIban())) {
-                    result.rejectValue("iban", "validation.zahlungsart.iban");
-                    return "customer";
-                }
-                break;
-
-            case KREDITKARTE:
-                if (StringUtils.isEmptyOrWhitespace(kunde.getKreditkartenNr())) {
-                    result.rejectValue("kunde.kreditkartenNr", "validation.zahlungsart.karte");
-                    return "customer";
-                }
-                break;
-
-            case PAYPAL:
-                break;
-        }
 
         Kunde vorhandenerKunde = kundenService.findByEmail(kunde.getEmail());
         if (vorhandenerKunde != null && vorhandenerKunde.getId() != kunde.getId()) {

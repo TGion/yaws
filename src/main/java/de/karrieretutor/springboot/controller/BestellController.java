@@ -60,35 +60,15 @@ public class BestellController {
                             Locale locale,
                             HttpSession session) {
         if (result.hasErrors()) {
-            // TODO Fehler prüfen und ausgeben
-            // FINALE VERSION
+            // When is it called?
             return "checkout";
         }
 
         Kunde kunde = bestellung.getKunde();
 
-        // TODO
-        // kunde.zahlungsart here
-        // if (!kunde.validiereZahlungsart(result)) {
-        //     result.rejectValue("kunde.zahlungsart", "validation.zahlungsart.zahlungsart");
-        //     return "checkout";
-        // };
-         
-        switch (kunde.getZahlungsart()) {
-            case EINZUG:
-            if (!kunde.validiereIBAN(kunde.getIban())) {
-                result.rejectValue("kunde.iban", "validation.zahlungsart.iban");
-                    return "checkout";
-                }
-                break;
-            case KREDITKARTE:
-                if (StringUtils.isEmptyOrWhitespace(kunde.getKreditkartenNr())) {
-                    result.rejectValue("kunde.kreditkartenNr", "validation.zahlungsart.karte");
-                    return "checkout";
-                }
-            case PAYPAL:
-                break;
-        }
+        if (!kunde.validiereZahlungsart(result)) {
+            return "checkout";
+        };
 
         String message = messageSource.getMessage("order.failure", null, locale);
         boolean istNeuerKunde = (kunde.getId() == null);
