@@ -157,7 +157,6 @@ public class Kunde {
         this.bestellungen = bestellungen;
     }
 
-
     @Transient
     public boolean validiereZahlungsart(BindingResult result) {
         if (this.getZahlungsart().toString().isEmpty()) {
@@ -174,8 +173,8 @@ public class Kunde {
                 break;
 
             case KREDITKARTE:
-                if (StringUtils.isEmptyOrWhitespace(this.getKreditkartenNr())) {
-                    result.rejectValue("kunde.kreditkartenNr", "validation.zahlungsart.karte");
+                if (!this.validiereKreditkartenNr(this.getKreditkartenNr())) {
+                    result.rejectValue("kreditkartenNr", "validation.zahlungsart.karte");
                     return false;
                 }
                 break;
@@ -183,7 +182,7 @@ public class Kunde {
             case PAYPAL:
                 break;
         }
-        
+
         return true;
     }
 
@@ -214,9 +213,25 @@ public class Kunde {
         return ibanNumber.mod(IBANNUMBER_MAGIC_NUMBER).intValue() == 1;
     }
 
-    // TODO: implementieren
-    private boolean validiereKreditkartenNr() {
-        return false;
+    private boolean validiereKreditkartenNr(String creditcardNumber) {
+
+        int[] ints = new int[creditcardNumber.length()];
+		for (int i = 0; i < creditcardNumber.length(); i++) {
+			ints[i] = Integer.parseInt(creditcardNumber.substring(i, i + 1));
+		}
+		for (int i = ints.length - 2; i >= 0; i = i - 2) {
+			int j = ints[i];
+			j = j * 2;
+			if (j > 9) {
+				j = j % 10 + 1;
+			}
+			ints[i] = j;
+		}
+		int sum = 0;
+		for (int i = 0; i < ints.length; i++) {
+			sum += ints[i];
+		}
+		return (sum % 10 == 0);
     }
 
     @Override

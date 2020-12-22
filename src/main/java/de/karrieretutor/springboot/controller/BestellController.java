@@ -61,6 +61,7 @@ public class BestellController {
                             HttpSession session) {
         if (result.hasErrors()) {
             // When is it called?
+            System.out.println("BestellController: result.hasErrors()");
             return "checkout";
         }
 

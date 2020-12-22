@@ -124,6 +124,7 @@ public class KundenController {
 
         if (result.hasErrors()) {
             // When is it called ?
+            System.out.println("KundenController: result.hasErrors()");
             return "customer";
         }
 
