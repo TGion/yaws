@@ -128,6 +128,8 @@ public class KundenController {
             return "customer";
         }
 
+        // TODO
+        // zahlungsart here
         if (!kunde.validiereZahlungsart(result)) {
             result.rejectValue("zahlungsart", "validation.zahlungsart.zahlungsart");
             return "customer";

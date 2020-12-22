@@ -66,15 +66,18 @@ public class BestellController {
         }
 
         Kunde kunde = bestellung.getKunde();
-        if (!kunde.validiereZahlungsart(result)) {
-            result.rejectValue("zahlungsart", "validation.zahlungsart.zahlungsart");
-            return "checkout";
-        };
+
+        // TODO
+        // kunde.zahlungsart here
+        // if (!kunde.validiereZahlungsart(result)) {
+        //     result.rejectValue("kunde.zahlungsart", "validation.zahlungsart.zahlungsart");
+        //     return "checkout";
+        // };
          
         switch (kunde.getZahlungsart()) {
             case EINZUG:
             if (!kunde.validiereIBAN(kunde.getIban())) {
-                result.rejectValue("iban", "validation.zahlungsart.iban");
+                result.rejectValue("kunde.iban", "validation.zahlungsart.iban");
                     return "checkout";
                 }
                 break;
