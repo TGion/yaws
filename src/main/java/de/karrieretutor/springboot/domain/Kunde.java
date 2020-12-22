@@ -159,6 +159,7 @@ public class Kunde {
 
     @Transient
     public boolean validiereZahlungsart(BindingResult result) {
+        // Überprüfe ob Zahlungsart ausgewählt
         if (this.getZahlungsart().toString().isEmpty()) {
             result.rejectValue("zahlungsart", "validation.zahlungsart.zahlungsart");
             return false;
@@ -166,6 +167,11 @@ public class Kunde {
 
         switch (this.getZahlungsart()) {
             case EINZUG:
+                if (StringUtils.isEmptyOrWhitespace(this.getIban())) { 
+                    result.rejectValue("iban", "validation.zahlungsart.iban"); 
+                    return false; 
+                }
+
                 if (!this.validiereIBAN(this.getIban())) {
                     result.rejectValue("iban", "validation.zahlungsart.iban");
                     return false;
@@ -173,6 +179,11 @@ public class Kunde {
                 break;
 
             case KREDITKARTE:
+                if (StringUtils.isEmptyOrWhitespace(this.getKreditkartenNr())) { 
+                    result.rejectValue("kreditkartenNr", "validation.zahlungsart.karte"); 
+                    return false; 
+                }
+
                 if (!this.validiereKreditkartenNr(this.getKreditkartenNr())) {
                     result.rejectValue("kreditkartenNr", "validation.zahlungsart.karte");
                     return false;
