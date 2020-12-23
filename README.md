@@ -28,7 +28,7 @@ Study of web development using Spring Boot with Material Design Lite and many mo
     #####################
     # Database on Heroku
     #####################
-    spring.datasource.url=jdbc:postgresql://[DB_URL:5432/DB_NAME?user=DB_USER&password=DB_PASSWORD&sslmode=require
+    spring.datasource.url=jdbc:postgresql://DB_URL:5432/DB_NAME?user=DB_USER&password=DB_PASSWORD&sslmode=require
 
     #####################
     # Mail Setup
@@ -50,5 +50,9 @@ Study of web development using Spring Boot with Material Design Lite and many mo
 
 
 ## <a name="depend">Dependencies</a>
+
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Thymeleaf](https://www.thymeleaf.org/)
+- [Material Design Lite](https://getmdl.io/)
 
 
