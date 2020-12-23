@@ -28,7 +28,7 @@ Study of web development using Spring Boot with Material Design Lite and many mo
     #####################
     # Database on Heroku
     #####################
-    spring.datasource.url=jdbc:postgresql://DB_URL:5432/DB_NAME?user=DB_USER&password=DB_PASSWORD&sslmode=require
+    spring.datasource.url=jdbc:postgresql://DB_HOST:5432/DB_NAME?user=DB_USER&password=DB_PASSWORD&sslmode=require
 
     #####################
     # Mail Setup
