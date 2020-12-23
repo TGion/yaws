@@ -35,12 +35,24 @@
 			   	th:classappend="${titel=='Login'}?is-active" th:text="#{nav.login}">
 				</a>
 
-			<span th:text="#{lang.change}"></span>
-			<select id="locales" onchange="location.search='?lang='+this.value">
+			<span style="margin-right: 1em;" th:text="#{lang.change}"></span>
+			<select id="locales" onchange="location.search='?lang='+this.value"> 
+				
 				<!-- <option value="" th:text="#{lang.select}"></option>  -->
+				
 				<option value="en" th:text="#{lang.en}"	th:selected="${#strings.equals(#locale, 'en')}"></option>
 				<option value="de" th:text="#{lang.de}"	th:selected="${#strings.equals(#locale, 'de')}"></option>
-			</select>
+			</select> -
+			
+			<!-- <span>
+				<a style="display: inline; text-decoration: none;" href="location.search='?lang=en" class="mdl-language__change"
+				th:classappend="${titel=='Index'}?is-active" th:text="#{lang.en.short}">
+				</a>
+				<a style="display: inline" href="location.search='?lang=de" class="mdl-language__change"
+				th:classappend="${titel=='Index'}?is-active" th:text="#{lang.de.short}">
+				</a>
+			</span> -->
+			
 
 		</nav>
 
