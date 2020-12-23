@@ -130,7 +130,7 @@ public class KundenController {
 
         if (!kunde.validiereZahlungsart(result)) {
             return "customer";
-        };
+        }
 
         Kunde vorhandenerKunde = kundenService.findByEmail(kunde.getEmail());
         if (vorhandenerKunde != null && vorhandenerKunde.getId() != kunde.getId()) {
